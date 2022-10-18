@@ -2,30 +2,25 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 
-part 'joke_model.g.dart';
-
+part 'joke.g.dart';
 
 @HiveType(typeId: 0)
 class Joke {
   @HiveField(0)
   final String id;
   @HiveField(1)
-  final String iconUrl;
-  @HiveField(2)
   final String value;
 
-  Joke({required this.id, required this.iconUrl, required this.value});
+  Joke({required this.id, required this.value});
 
   Joke.fromJson(Map<String, dynamic> json)
       : id = json['id'],
-        iconUrl = json['icon_url'],
         value = json['value'];
 
-  Map<String, dynamic> toJson() =>
-      {'id': id, 'icon_url': iconUrl, 'value': value};
+  Map<String, dynamic> toJson() => {'id': id, 'value': value};
 }
 
-Future<Joke> getJoke() async {
+Future<Joke?> getJoke() async {
   const String uri = "https://api.chucknorris.io/jokes/random";
   try {
     final Response response = await Dio().get(uri);
@@ -34,6 +29,19 @@ Future<Joke> getJoke() async {
     }
     return Joke.fromJson(response.data);
   } catch (e) {
-    rethrow;
+    if (kDebugMode) {
+      print("Some internet error");
+    }
   }
+  return null;
+}
+
+void addJokeToHive(Joke joke) async {
+  var box = Hive.box("jokes");
+
+  if (box.get(joke.id) != null || joke.id == '0') {
+    return;
+  }
+
+  await box.put(joke.id, joke);
 }
