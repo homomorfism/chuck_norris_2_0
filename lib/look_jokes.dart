@@ -25,8 +25,10 @@ class _LookJokesPage extends State<LookJokesPage> {
         actions: <Widget>[
           TextButton(
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (_) => const FavouriteJokesPage()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => const FavouriteJokesPage()));
             },
             style: style,
             child: const Text('Fav. jokes'),
