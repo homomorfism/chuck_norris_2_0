@@ -9,3 +9,9 @@
 - кастомная иконка
 - persistance с hive
 - и многое другое
+
+# Скриншоты
+
+![](figures/Screenshot%20from%202022-11-03%2019-59-17.png)
+
+![](figures/Screenshot%20from%202022-11-03%2020-00-12.png)
